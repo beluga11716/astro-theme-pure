@@ -27,5 +27,15 @@
     }
     // https://docs.astro.build/en/guides/typescript/#typescript-editor-plugin
   },
-  "exclude": ["./node_modules", "./**/node_modules/*", "./.vscode", "./dist", "./public/scripts/*", "./test/*"]
+  // `public/scripts/*` 与 `public/vendor/*` 是原样搬运的第三方脚本，
+  // allowJs 会把它们一起类型检查并报出上游自己的过时 API 警告，故排除。
+  "exclude": [
+    "./node_modules",
+    "./**/node_modules/*",
+    "./.vscode",
+    "./dist",
+    "./public/scripts/*",
+    "./public/vendor/*",
+    "./test/*"
+  ]
 }

@@ -15,7 +15,7 @@
     "lint": "eslint --fix 'src/**/*.{js,ts,jsx,tsx,astro}'",
     "yijiansilian": "npm run lint && npm run sync && npm run check && npm run format",
     "clean": "rm -rf .astro .vercel dist",
-    "cache:avatars": "tsx preset/scripts/cacheAvatars.ts"
+    "quotes": "node preset/scripts/fetchQuotes.mjs"
   },
   "dependencies": {
     "@astrojs/check": "0.9.9",

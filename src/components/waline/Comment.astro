@@ -31,8 +31,12 @@ const { class: className } = Astro.props
     private initWaline() {
       if (this.initialized) return
       this.initialized = true
+      // 表情包直接走 jsdelivr，不跟 config.npmCDN 走 —— npmCDN 现在指向本站
+      // 自托管的 /vendor/npm，那里没有 waline 的表情包。Waline 本身就要连
+      // 自建服务器，表情包单独走 CDN 不影响其余部分的离线化。
       const emoji = walineConfig.emoji?.map(
-        (preset) => `${config.npmCDN}/@waline/emojis@1.2.0/${preset}` as WalineEmojiPresets
+        (preset) =>
+          `https://cdn.jsdelivr.net/npm/@waline/emojis@1.2.0/${preset}` as WalineEmojiPresets
       )
       walineInit({
         el: 'comment-component #waline',

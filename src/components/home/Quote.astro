@@ -1,0 +1,62 @@
+---
+import { cn } from 'astro-pure/utils'
+import quotes from '@/public/quotes.json'
+
+type Quote = { text: string; from: string; who: string }
+
+const { class: className } = Astro.props
+
+/** 把作者和出处拼成一行，缺哪个就跳过哪个 */
+const credit = (q: Quote) => [q.who, q.from && `《${q.from}》`].filter(Boolean).join(' ')
+
+// 构建期就挑好一句写进 HTML：访客禁用 JS 时看到的是句子，而不是加载中的占位。
+const initial = quotes[Math.floor(Math.random() * quotes.length)] as Quote
+
+// 存进 <script type="application/json"> 前把 `<` 转义掉，
+// 否则正文里只要出现 `</script>` 就会把标签提前截断。
+const quotesJson = JSON.stringify(quotes).replace(/</g, '\\u003c')
+---
+
+<quote-component class={cn('not-prose inline-block', className)}>
+  <script is:inline type='application/json' data-quotes set:html={quotesJson}></script>
+  <div class='flex flex-row items-center gap-x-3 rounded-full border px-4 py-2 text-sm shadow-sm'>
+    <span class='relative flex items-center justify-center'>
+      <span
+        class='absolute size-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
+      ></span>
+      <span class='size-2 rounded-full bg-green-400'></span>
+    </span>
+    <p class='font-medium text-muted-foreground'>
+      <span data-quote-text>{initial.text}</span>
+      <span class='ml-1 text-xs opacity-60' data-quote-credit>{credit(initial)}</span>
+    </p>
+  </div>
+</quote-component>
+
+<script>
+  // 句子已经烤在 HTML 里，这里只是每次进页面换一句，不发任何网络请求。
+  // 这就是它比原来 fetch(dummyjson) 快的原因：省掉了一整个境外域名的
+  // DNS + TLS + 往返，代价只是首页 HTML 大几 KB。
+  class Quote extends HTMLElement {
+    connectedCallback() {
+      const data = this.querySelector<HTMLScriptElement>('script[data-quotes]')
+      if (!data?.textContent) return
+
+      let quotes: { text: string; from: string; who: string }[]
+      try {
+        quotes = JSON.parse(data.textContent)
+      } catch {
+        return // 解析失败就保留构建期那句，不报错
+      }
+      if (!quotes.length) return
+
+      const pick = quotes[Math.floor(Math.random() * quotes.length)]
+      const text = this.querySelector('[data-quote-text]')
+      const credit = this.querySelector('[data-quote-credit]')
+      if (text) text.textContent = pick.text
+      if (credit) credit.textContent = [pick.who, pick.from && `《${pick.from}》`].filter(Boolean).join(' ')
+    }
+  }
+
+  if (!customElements.get('quote-component')) customElements.define('quote-component', Quote)
+</script>

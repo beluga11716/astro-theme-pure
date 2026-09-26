@@ -32,7 +32,12 @@ export const theme: ThemeUserConfig = {
 
   titleDelimiter: '•',
   prerender: true, // pagefind search is not supported with prerendering disabled
-  npmCDN: 'https://cdn.jsdelivr.net/npm',
+  // 第三方库改为自托管：medium-zoom 与 qrcodejs 已下载到 public/vendor/npm/，
+  // 路径结构与 npm 包一致，所以主题里 `${npmCDN}/<包名>/<路径>` 的拼法照常可用。
+  // 这样页面不用再去 cdn.jsdelivr.net 取文件 —— 那个域名在大陆时好时坏，
+  // 一旦超时会拖住整个页面渲染。
+  // 更新方式：重新下载对应版本的 dist 文件放进 public/vendor/npm/，路径保持不变。
+  npmCDN: '/vendor/npm',
 
   // Still in test
   head: [
@@ -51,7 +56,6 @@ export const theme: ThemeUserConfig = {
       { title: 'blog', link: '/blog' },
       { title: '文檔', link: '/docs' },
       { title: '專案', link: '/projects' },
-      { title: '友鏈', link: '/links' },
       { title: '關於', link: '/about' }
     ]
   },
@@ -101,37 +105,18 @@ export const theme: ThemeUserConfig = {
 
 export const integ: IntegrationUserConfig = {
   // [Links]
-  // https://astro-pure.js.org/docs/integrations/links
-  links: {
-    // Friend logbook
-    logbook: [],
-    // Yourself link info
-    applyTip: [
-      { name: 'Name', val: theme.title },
-      { name: 'Desc', val: theme.description || 'Null' },
-      { name: 'Link', val: 'https://raynard.lol' },
-      { name: 'Avatar', val: 'https://raynard.lol/favicon/favicon-light-192.png' }
-    ],
-    // Cache avatars in `public/avatars/` to improve user experience.
-    cacheAvatar: false
-  },
+  // 友鏈功能已移除：選單項、/links 頁面、FriendList 元件、public/links.json
+  // 與 preset/scripts/cacheAvatars.ts 都已刪除。`links` 在 schema 中帶預設值，故整段省略。
+
   // [Search]
   pagefind: true,
-  // Add a random quote to the footer (default on homepage footer)
-  // See: https://astro-pure.js.org/docs/integrations/advanced#web-content-render
   // [Quote]
+  // 首頁名言改由 src/components/home/Quote.astro 在構建期讀取本機 `public/quotes.json`
+  // 直接烤進 HTML，執行時不請求任何外部介面。此欄位是 astro-pure schema 的必填項，
+  // 指向本站靜態檔是為了讓主題內建的 <Quote> 若被用到時也只同源取一次，不外連。
   quote: {
-    // - Hitokoto
-    // https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%9C%B0%E5%9D%80
-    // server: 'https://v1.hitokoto.cn/?c=i',
-    // target: `(data) => (data.hitokoto || 'Error')`
-    // - Quotable
-    // https://github.com/lukePeavey/quotable
-    // server: 'http://api.quotable.io/quotes/random?maxLength=60',
-    // target: `(data) => data[0].content || 'Error'`
-    // - DummyJSON
-    server: 'https://dummyjson.com/quotes/random',
-    target: `(data) => (data.quote.length > 80 ? \`\${data.quote.slice(0, 80)}...\` : data.quote || 'Error')`
+    server: '/quotes.json',
+    target: `(data) => data[Math.floor(Math.random() * data.length)].text`
   },
   // [Typography]
   // https://unocss.dev/presets/typography

@@ -1,6 +1,10 @@
 ### Astro ###
-dist/
-.astro/
+# 锚定到仓库根目录：Astro 的构建产物只在根部生成。
+# 不加 `/` 的话会匹配任意层级的同名目录，例如
+# public/vendor/npm/medium-zoom/dist/ 会被静默忽略 ——
+# 本地构建正常，部署后却 404。
+/dist/
+/.astro/
 
 ### Vercel ###
 .vercel/
