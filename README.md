@@ -59,10 +59,7 @@ See [astro-theme-pure](https://www.npmjs.com/package/astro-pure) on npm.
 > [!WARNING]
 > Astro 6.0+ requires Node.js 22.12.0 or newer. Odd-numbered Node.js versions such as 23 are not supported by Astro.
 
-You can choose one of the following methods for project development:
-
-- [Bun](https://bun.com/get)
-- [Node.js](https://nodejs.org/)
+This project is developed with [Node.js](https://nodejs.org/) and npm.
 
 For deployment methods using container like [Docker](https://docs.docker.com/get-started/get-docker) & [Docker Compose](https://docs.docker.com/compose/install), please refer the documention [Using Docker Compose](https://astro-pure.js.org/docs/setup/using-docker-compose).
 
@@ -80,18 +77,12 @@ For deployment methods using container like [Docker](https://docs.docker.com/get
 2. Install dependencies:
 
    ```shell
-   bun install
+   npm install
    ```
 
 3. Start the development server:
 
    ```shell
-   bun dev
-   # or
-   pnpm dev
-   # or
-   yarn run dev
-   # or
    npm run dev
    ```
 
@@ -102,7 +93,7 @@ For deployment methods using container like [Docker](https://docs.docker.com/get
 After setting up either development environment, you can create a new blog article:
 
 ```shell
-bun pure new
+npm run pure new
 ```
 
 ## Deployment
@@ -112,7 +103,7 @@ bun pure new
 Build the production site into the `./dist` directory:
 
 ```shell
-bun run build
+npm run build
 ```
 
 Once the build is complete, the generated static files will be located in the `./dist` directory. You can deploy this directory to any platform that supports static site hosting.
@@ -120,7 +111,7 @@ Once the build is complete, the generated static files will be located in the `.
 Preview the production build locally:
 
 ```shell
-bun preview
+npm run preview
 ```
 
 ### Static hosting platforms

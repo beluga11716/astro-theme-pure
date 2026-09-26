@@ -1,5 +1,4 @@
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
-import vercel from '@astrojs/vercel'
 import AstroPureIntegration from 'astro-pure'
 import { defineConfig, fontProviders, svgoOptimizer } from 'astro/config'
 import rehypeKatex from 'rehype-katex'
@@ -40,12 +39,11 @@ export default defineConfig({
   },
 
   // [Adapter]
+  // Pure static output: every route is rendered at build time, so the site deploys
+  // as plain files to any static host. Nothing here needs a server runtime, so no
+  // adapter is installed; add one if a route ever has to run on demand.
   // https://docs.astro.build/en/guides/deploy/
-  adapter: vercel({ imageService: true }),
-  output: 'server',
-  // Local (standalone)
-  // adapter: node({ mode: 'standalone' }),
-  // output: 'server',
+  output: 'static',
 
   // [Assets]
   image: {

@@ -43,7 +43,7 @@ services:
       - dist:/web/dist
       - ./dist:/export
     command: >
-      sh -c "bun run build &&
+      sh -c "npm run build &&
              find /export -mindepth 1 -print -delete &&
              cp -rv /web/dist/. /export/"
     restart: "no"
@@ -63,7 +63,7 @@ services:
       - "4321:4321"
     volumes:
       - dist:/web/dist
-    command: bun run preview --host 0.0.0.0
+    command: npm run preview -- --host 0.0.0.0
 
   dev:
     profiles: [dev]
@@ -78,7 +78,7 @@ services:
     volumes:
       - .:/web
       - node_modules:/web/node_modules
-    command: bun run dev --host 0.0.0.0
+    command: npm run dev -- --host 0.0.0.0
 
   new:
     profiles: [new]
@@ -90,7 +90,7 @@ services:
     working_dir: /web
     volumes:
       - ./src/content:/web/src/content
-    command: bun run pure new
+    command: npm run pure new
     restart: "no"
 
 volumes:

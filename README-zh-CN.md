@@ -59,10 +59,7 @@
 > [!WARNING]
 > Astro 6.0+ 要求 Node.js v22.12.0 或更高版本。Astro 不支持奇数版本的 Node.js，例如 v23。
 
-你可以选择以下任一方式进行项目开发：
-
-- [Bun](https://bun.com/get)
-- [Node.js](https://nodejs.org/zh-cn)
+本项目使用 [Node.js](https://nodejs.org/zh-cn) 与 npm 进行开发。
 
 对于使用容器化部署如 [Docker](https://docs.docker.com/get-started/get-docker) & [Docker Compose](https://docs.docker.com/compose/install)，请参考文档 [Docker Compose](https://astro-pure.js.org/docs/setup/using-docker-compose)。
 
@@ -81,18 +78,12 @@
 
    ```shell
    # 安装项目依赖
-   bun install
+   npm install
    ```
 
 3. 启动开发服务器：
 
    ```shell
-   bun dev
-   # 或
-   pnpm dev
-   # 或
-   yarn run dev
-   # 或
    npm run dev
    ```
 
@@ -103,7 +94,7 @@
 完成任一开发环境的设置后，您可以创建一篇新的博客文章：
 
 ```shell
-bun pure new
+npm run pure new
 ```
 
 ## 部署
@@ -113,7 +104,7 @@ bun pure new
 构建生产站点到 `./dist` 目录：
 
 ```shell
-bun run build
+npm run build
 ```
 
 构建完成后，生成的静态文件将位于 `./dist` 目录中，你可以将该目录部署到支持静态网站托管的平台。
@@ -121,7 +112,7 @@ bun run build
 本地预览构建结果：
 
 ```shell
-bun preview
+npm run preview
 ```
 
 ### 静态托管平台
