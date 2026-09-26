@@ -7,6 +7,7 @@ import remarkMath from 'remark-math'
 
 // Local integrations
 import rehypeAutolinkHeadings from './src/plugins/rehype-auto-link-headings.ts'
+import rehypeFireflyCompat from './src/plugins/rehype-firefly-compat.ts'
 // Shiki
 import {
   addCollapse,
@@ -25,7 +26,7 @@ import config from './src/site.config.ts'
 // https://astro.build/config
 export default defineConfig({
   // [Basic]
-  site: 'https://astro-pure.js.org',
+  site: 'https://raynard.lol',
   // Deploy to a sub path
   // https://astro-pure.js.org/docs/setup/deployment#platform-with-base-path
   // base: '/astro-pure/',
@@ -50,8 +51,11 @@ export default defineConfig({
   image: {
     responsiveStyles: true,
     service: { entrypoint: 'astro/assets/services/sharp' },
-    // domains: ['ghchart.rshah.org'],
-    remotePatterns: [{ protocol: 'https' }]
+    // Articles embed images hosted on an image bed, so they are deliberately
+    // left out of `remotePatterns`: matching them would make Astro download and
+    // resize every one of them during the build. Without a pattern they render
+    // as plain `<img>`, which is both build-safe and how they were served before.
+    // domains: ['ghchart.rshah.org']
   },
   // Enable font preloading and optimization
   // https://docs.astro.build/en/guides/fonts/
@@ -84,7 +88,9 @@ export default defineConfig({
           properties: { className: ['anchor'] },
           content: { type: 'text', value: '#' }
         }
-      ]
+      ],
+      // Syntax inherited from the Firefly theme: callouts, spoilers, image grids
+      rehypeFireflyCompat
     ],
     // https://docs.astro.build/en/guides/syntax-highlighting/
     shikiConfig: {

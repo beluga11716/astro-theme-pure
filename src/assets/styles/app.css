@@ -46,3 +46,102 @@ a {
     color: hsl(var(--primary) / var(--un-text-opacity, 1));
   }
 }
+
+/* Markdown extensions ported from the Firefly theme.
+   Markup is emitted by `src/plugins/rehype-firefly-compat.ts`. */
+
+/* Callouts: `> [!NOTE] Title` */
+.callout {
+  --callout-color: 199 89% 48%;
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-inline-start: 0.25rem solid hsl(var(--callout-color) / 1);
+  border-radius: var(--radius);
+  background-color: hsl(var(--callout-color) / 0.08);
+}
+.callout-note {
+  --callout-color: 199 89% 48%;
+}
+.callout-tip {
+  --callout-color: 137 66% 30%;
+}
+.callout-important {
+  --callout-color: 265 84% 54%;
+}
+.callout-warning {
+  --callout-color: 35 89% 36%;
+}
+.callout-caution {
+  --callout-color: 0 72% 51%;
+}
+.dark .callout {
+  background-color: hsl(var(--callout-color) / 0.16);
+}
+.dark .callout-note {
+  --callout-color: 212 100% 67%;
+}
+.dark .callout-tip {
+  --callout-color: 128 49% 50%;
+}
+.dark .callout-important {
+  --callout-color: 265 85% 72%;
+}
+.dark .callout-warning {
+  --callout-color: 40 63% 55%;
+}
+.dark .callout-caution {
+  --callout-color: 4 90% 64%;
+}
+
+.callout-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-weight: 500;
+  color: hsl(var(--callout-color) / 1);
+}
+.callout-icon {
+  flex-shrink: 0;
+}
+.callout-content > :first-child {
+  margin-top: 0.5rem;
+}
+.callout-content > :last-child {
+  margin-bottom: 0;
+}
+
+/* Spoilers: `:spoiler[hidden text]` */
+.spoiler {
+  --spoiler-mask: hsl(var(--primary) / 1);
+  padding: 0.125rem 0.25rem;
+  border-radius: calc(var(--radius) / 2);
+  background-color: var(--spoiler-mask);
+  box-decoration-break: clone;
+  cursor: help;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+  &:not(:hover),
+  &:not(:hover) * {
+    color: var(--spoiler-mask);
+  }
+}
+:root:not(.dark) .spoiler {
+  /* Light mode needs an opaque mask, or the text tint would show through. */
+  --spoiler-mask: color-mix(in srgb, hsl(var(--primary) / 1) 55%, white 45%);
+}
+
+/* Image grids: `[grid] ... [/grid]` */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--image-grid-cols, 2), minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.image-grid img {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: var(--radius);
+}

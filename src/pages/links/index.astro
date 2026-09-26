@@ -14,7 +14,7 @@ const headings = [
 
 const { friends } = links
 const linksConf = config.integ.links
-const linkEditPage = 'https://github.com/cworld1/astro-theme-pure/blob/main/public/links.json'
+const contact = config.footer.social?.find((item) => item.icon === 'email')?.href ?? '/about'
 ---
 
 <PageLayout title='Links' {headings} comment>
@@ -24,9 +24,13 @@ const linkEditPage = 'https://github.com/cworld1/astro-theme-pure/blob/main/publ
   <Collapse title='Links with Bad Status'>
     <FriendList list={friends[1]} />
   </Collapse>
-  <Collapse title='Link History Book'>
-    <Timeline events={linksConf.logbook} />
-  </Collapse>
+  {
+    linksConf.logbook.length > 0 && (
+      <Collapse title='Link History Book'>
+        <Timeline events={linksConf.logbook} />
+      </Collapse>
+    )
+  }
   <h2 id='special-links'>Special Links</h2>
   <FriendList list={friends[2]} />
 
@@ -49,9 +53,9 @@ const linkEditPage = 'https://github.com/cworld1/astro-theme-pure/blob/main/publ
   </blockquote>
 
   <p>
-    可通过下方留言或 <a href={linkEditPage} target='_blank'>提交 PR</a> 申请友链。申请说明：<br />
-    Apply your link by leaving comment or <a href={linkEditPage} target='_blank'>Submitting a PR</a
-    >. Additional info:
+    請透過<a href={contact} target='_blank'>關於頁的聯絡方式</a>申請友鏈。申請說明：<br />
+    Apply for a link exchange through the <a href={contact} target='_blank'>contact details</a> on
+    the about page. Additional info:
   </p>
   <ul>
     <li>推荐了本站 You've recommended our link on your website</li>
