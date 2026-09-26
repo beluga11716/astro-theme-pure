@@ -1,0 +1,16 @@
+{
+  // Deployed as a Worker with static assets only: `wrangler deploy` uploads
+  // `dist/` as-is. The site builds with `output: 'static'`, so there is no
+  // Worker script and no `main` entrypoint. This file also stops wrangler's
+  // autoconfigure flow from running `astro add cloudflare`, which would switch
+  // the site back to SSR.
+  "name": "astro-theme-pure",
+  "compatibility_date": "2026-09-26",
+  "assets": {
+    "directory": "./dist",
+    // Serve the build's own `dist/404.html` with a real 404 status. The default
+    // SPA behaviour would answer every unknown path with `/index.html` and a
+    // 200, which misleads crawlers.
+    "not_found_handling": "404-page"
+  }
+}
